@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "mackenziesapp-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: mackenziesapp
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: hWgXkj0oB38KJdyyqZ1ZgRaLmiMPqsi91Y6ySU802NvKEigiYR4IeRCIHWh/nZlWiMdQmWfzdagy7KLxOkBydyW1DXudLD6l8TZWpFj+ntryp3m1JSrn/aWBo/YuAOflbxS9kNAeiwVJluut3j76ch3sHbsydPG6SZzLb/yIzRPVh+4qwlfW9ylEtBvo6ylZTabtdmjN+ksbrc1GBBYRbNhioMNalHewJonE7AkgYvG/QgXI6yVX5Ag1ZsNC5ao0GdZl7aU9K498BcRT0IXqQEagV57GANxZa4rzhzBkJ1zQOFPssTh5l+bSMwv8Ygrc6rV0R7bvDNcZMfOT9pDXZn3B+8DQSCpbCdJYfEQn1BKdZ0F5rBi4BOtw/rxBIfbBIMLEOwFL3Kt/Kl9uEbKF9uyFWVFanswDQ4TsbIC6jCH4RfwQoIHtL49RTBD596D6Xq0c7v/49zoQ7IC0As9thanQMDJEjquUlG6n3mI4qGSgXqPBzrTFRO4RVjy5oql+vT45jnBdpqqc+nuXSZs9pKmiRdGbPx2ZH7+fr6H4GgnTw1GrTfpgEvDonkSBKAY6Xu4cVBwg0FEIoiZFtd09TlwQXjqZozxVdBlwQ4VkyqEeYiln9DD0urQgqdZKEV9LHtOZ/GbvPmZPBJC1U/l2GssNXlm+Z5WENo/kFtUPuP8=
